@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "closecore": {
+      "type": "streamable-http",
+      "url": "https://production-api.closecore.com/mcp"
+    }
+  }
+}

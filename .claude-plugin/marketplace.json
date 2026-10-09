@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "closecore-plugins",
+  "description": "CloseCore plugins for accounting close management.",
+  "owner": {
+    "name": "CloseCore",
+    "url": "https://www.closecore.com"
+  },
+  "plugins": [
+    {
+      "name": "closecore",
+      "source": "./plugins/closecore",
+      "description": "Analyze and manage the accounting close with CloseCore."
+    }
+  ]
+}
