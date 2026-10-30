@@ -39,6 +39,7 @@ For normal close work, omit database row IDs, audit-log IDs, payload commentary,
 | Reconciliation | `list_reconciliations` -> `save_reconciliation` |
 | Agent task | `list_agent_tasks` -> `save_agent_task` |
 | Journal entry task | `list_journal_entry_items` (read-only in MCP) |
+| Link ERP journal entries | Find the task -> `search_journal_entries` (not for Sage Intacct; use `JOURNAL:NUMBER` names) -> one `link_journal_entry` call with every entry, or `unlink_journal_entry` |
 | Review notes | Find task -> `get_review_notes` -> `create_review_note` or `update_review_note` |
 | Report or Flux | `list_reports` -> `get_report` -> `get_report_data`; then `list_flux_items` -> `save_flux_item` when requested |
 | ERP detail | `list_accounts` / `list_dimensions` -> applicable balance tool |

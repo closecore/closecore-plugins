@@ -1,7 +1,7 @@
 {
   "name": "closecore",
   "displayName": "CloseCore",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Analyze and manage the accounting close with CloseCore.",
   "author": {
     "name": "CloseCore",
