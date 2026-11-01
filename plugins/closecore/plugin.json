@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "closecore",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Analyze and manage the accounting close with CloseCore.",
   "author": {
     "name": "CloseCore",
