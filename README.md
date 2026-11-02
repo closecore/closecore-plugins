@@ -8,6 +8,10 @@ The CloseCore plugin bundles the CloseCore connector and skills. These steps wor
 web and Claude Desktop. Pick the section that matches your Claude plan and how you want to install
 the plugin: from this GitHub repository, or from a zip file when you do not have a GitHub account.
 
+The plugin's three skills install together and work as a set: `closecore` for work through the
+connector, `author-closecore-import` for preparing the bulk import workbooks, and
+`author-closecore-agent-task`, which both use to write agent task steps.
+
 - Marketplace repository: `https://github.com/closecore/closecore-plugins`
 - Latest plugin zip: `https://production-api.closecore.com/api/mcp/plugin`
 - MCP server URL: `https://production-api.closecore.com/mcp`
