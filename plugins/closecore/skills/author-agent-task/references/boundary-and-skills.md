@@ -19,7 +19,6 @@ Quote the two lists below when you turn part of a request into a human step or l
 
 - Sign in to another system, portal or website, or reach any system that has no CloseCore connection.
 - Read bills or vendors from an AP connection.
-- Copy ERP transaction lines into a workbook. ERP balances go into a workbook as individual figures; matching a statement line by line against the ledger takes a saved agent reconciliation, or a ledger export saved as a file.
 - Post or change anything in the ERP. The one exception: on Sage Intacct, with posting enabled on the connection, it can attach task files to a journal entry that already exists.
 - Email anyone who is not an approved recipient, copy anyone in, or send attachments.
 - Move, delete or rename existing files, or change one other than as a new version that a person accepts.
@@ -34,8 +33,8 @@ Anything on the second list becomes a human step or leaves the task.
 
 The agent reads the description and steps, checks the task's conversation, and works the steps strictly in order. It hands each piece of work to a specialist, which matters when you rehearse a run:
 
-- **ERP**: accounts, dimensions, balances and transaction detail, read-only.
-- **Workbook**: finds, opens and writes files, and is the only specialist that produces them. It has no tool that returns ERP data, and it moves rows from a stored CSV, TSV or xlsx file only by importing them, never by retyping, so the ERP's transaction lines cannot reach it; lines it reads itself from a PDF or image it can write.
+- **ERP**: accounts, dimensions, balances and transaction detail, read-only. It hands transaction lines meant for a workbook to the workbook specialist as a file.
+- **Workbook**: finds, opens and writes files, and is the only specialist that produces them. It has no tool that returns ERP data; transaction lines reach it as the ERP specialist's file, which it copies into the workbook with code. It moves rows from a stored CSV, TSV or xlsx file only by importing them, never by retyping; lines it reads itself from a PDF or image it can write.
 - **Close data**: CloseCore's own tasks, notes, reports, journal entry drafts, progress and users. It changes nothing.
 - **Web**: public reference data only, on a task with **Web access** on.
 
@@ -47,7 +46,7 @@ The agent itself asks questions, sends email, runs agent reconciliations, keeps 
 
 - **Update a workbook** makes a new version of an existing xlsx file under its name, which a person accepts at sign-off; **Build a workbook** makes a new file; **Roll forward a workbook** only copies and relabels last period's file, so later steps do the real work.
 - **Read a spreadsheet** reads xlsx files and Google Sheets, **Read a CSV** reads CSV, TSV and text files, and **Read a PDF** reads PDFs and images, scans and handwriting included.
-- **Get transaction detail** returns up to 1,000 rows (250 by default), reported in the step and never written into a workbook, so name the account and narrow by dimension or amount.
+- **Get transaction detail** reports up to 1,000 rows (250 by default) in the step, or puts up to 50,000 into a workbook; either way, name the account and narrow by dimension or amount when the volume is large.
 - **Run a reconciliation** comes with any mention of an agent reconciliation, so mention the agent reconciliation itself.
 - **Request clarification** belongs on every human step that uses the conversation.
 - The ERP skills stay listed even without an ERP connection, so check the subsidiary's ERP in `list_entities`; a skill whose feature, or whose specific ERP, the subsidiary lacks is not offered.
