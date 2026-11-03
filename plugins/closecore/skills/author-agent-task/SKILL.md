@@ -1,5 +1,5 @@
 ---
-name: author-closecore-agent-task
+name: author-agent-task
 description: Use whenever an agent task's description or steps are written or revised, for an import workbook or for a direct save through the CloseCore connector. Covers the interview, human steps, skill mentions and the agent's limits. Not for checklist or reconciliation rows and not for running tasks.
 ---
 
@@ -83,4 +83,4 @@ Return to the skill that called you:
 4. Each human step with its channel and, for email, its recipient.
 5. Anything still to confirm.
 
-Reached directly, continue with the `author-closecore-import` skill for a workbook or the `closecore` skill for a direct save.
+Reached directly, continue with the `author-import` skill for a workbook or the `manage-close` skill for a direct save.

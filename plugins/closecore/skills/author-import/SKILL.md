@@ -1,6 +1,6 @@
 ---
-name: author-closecore-import
-description: "Use when preparing, editing or checking an Excel workbook for CloseCore's bulk imports: the template configuration workbook (folders, checklists, reconciliations, recurring agent tasks) or the training workspaces workbook, including agent task rows and upload errors. Not for changing tasks directly through the connector; the closecore skill does that."
+name: author-import
+description: "Use when preparing, editing or checking an Excel workbook for CloseCore's bulk imports: the template configuration workbook (folders, checklists, reconciliations, recurring agent tasks) or the training workspaces workbook, including agent task rows and upload errors. Not for changing tasks directly through the connector; the manage-close skill does that."
 ---
 
 # Author a CloseCore import workbook
@@ -14,7 +14,7 @@ You prepare the file; the person uploads, reviews and applies it in the app. Pre
 - Start from a fresh download made today, from the right subsidiary: an older file can hold IDs that no longer exist and miss newer templates, which the upload would delete. Without one, draft wording only.
 - Keep every sheet, its name and every existing row. Keep each **Template ID** and **Workspace ID** as downloaded; a new row's ID stays blank, never generated or copied.
 - Write plain text and numbers, never formulas, date cells or true/false cells; the one formula allowed is a template sheet's **Folder** reference.
-- A batch, or folders, frequencies and assignees across the board, belongs in the workbook. One task or a handful, or a change to a live task, is often quicker through the connector with the `closecore` skill; offer that, then follow the person's choice.
+- A batch, or folders, frequencies and assignees across the board, belongs in the workbook. One task or a handful, or a change to a live task, is often quicker through the connector with the `manage-close` skill; offer that, then follow the person's choice.
 - Read the person's example workbook or before-and-after first and match its detail and conventions. Their stated or remembered preferences win over this skill's defaults; offer to remember new ones.
 - Live sources win over the reference files: the workbook's **Instructions** and **Skills** sheets, the connector and the app's preview.
 
@@ -35,7 +35,7 @@ You prepare the file; the person uploads, reviews and applies it in the app. Pre
 
 ## Agent task rows
 
-Load the `author-closecore-agent-task` skill first and follow it; never draft an agent task's steps without it. Then fill the rows:
+Load the `author-agent-task` skill first and follow it; never draft an agent task's steps without it. Then fill the rows:
 
 - **Task Description** on the task's first row, then one row per step: **Step No.** from 1, **Step Title** and **Detailed Guidance**. Step 1 shares the task's row; each later step row leaves every other cell blank.
 - Mentions and length limits follow that skill's "Write the guidance" section.

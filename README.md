@@ -8,9 +8,9 @@ The CloseCore plugin bundles the CloseCore connector and skills. These steps wor
 web and Claude Desktop. Pick the section that matches your Claude plan and how you want to install
 the plugin: from this GitHub repository, or from a zip file when you do not have a GitHub account.
 
-The plugin's three skills install together and work as a set: `closecore` for work through the
-connector, `author-closecore-import` for preparing the bulk import workbooks, and
-`author-closecore-agent-task`, which both use to write agent task steps.
+The plugin's three skills install together and work as a set: `manage-close` for work through the
+connector, `author-import` for preparing the bulk import workbooks, and `author-agent-task`,
+which both use to write agent task steps.
 
 - Marketplace repository: `https://github.com/closecore/closecore-plugins`
 - Latest plugin zip: `https://production-api.closecore.com/api/mcp/plugin`
@@ -38,7 +38,7 @@ Steps for each member:
    organization to allow members to add marketplaces, and Claude may ask you to connect a GitHub
    account. If either is a problem, an Owner can use the zip file instead.
 7. Open the **CloseCore** plugin and select **Add**.
-8. Start a chat and type `/closecore` to use CloseCore.
+8. Start a chat, type `/closecore` and choose **manage-close**, or just ask Claude about your close.
 
 ### Team or Enterprise plan, from a zip file
 
@@ -64,7 +64,7 @@ Steps for each member:
 7. Complete the CloseCore sign-in, choose your organization, and approve the requested access.
 8. If the plugin is not already installed, open **Customize → Plugins → Discover**, select
    **CloseCore**, and select **Add**.
-9. Start a chat and type `/closecore` to use CloseCore.
+9. Start a chat, type `/closecore` and choose **manage-close**, or just ask Claude about your close.
 
 ### Personal plan (Free, Pro, Max), from this repository
 
@@ -79,7 +79,7 @@ Steps for each member:
 6. Under **Authentication**, select **Sign in now**. Under **OAuth client**, select
    **Register automatically**. Leave request headers blank and continue.
 7. Complete the CloseCore sign-in, choose your organization, and approve the requested access.
-8. Start a chat and type `/closecore` to use CloseCore.
+8. Start a chat, type `/closecore` and choose **manage-close**, or just ask Claude about your close.
 
 ### Personal plan (Free, Pro, Max), from a zip file
 
@@ -91,7 +91,7 @@ Steps for each member:
 5. Under **Authentication**, select **Sign in now**. Under **OAuth client**, select
    **Register automatically**. Leave request headers blank and continue.
 6. Complete the CloseCore sign-in, choose your organization, and approve the requested access.
-7. Start a chat and type `/closecore` to use CloseCore.
+7. Start a chat, type `/closecore` and choose **manage-close**, or just ask Claude about your close.
 
 Uploaded plugins do not update on their own. When CloseCore releases a new version, remove the
 plugin and upload the new file.

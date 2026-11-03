@@ -1,6 +1,6 @@
 # Human step phrasing and archetypes
 
-Mentions appear in backticks here; write them without backticks, in the form the `author-closecore-agent-task` skill gives for a workbook or the connector.
+Mentions appear in backticks here; write them without backticks, in the form the `author-agent-task` skill gives for a workbook or the connector.
 
 ## Human step phrasing
 

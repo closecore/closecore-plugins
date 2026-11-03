@@ -1,6 +1,6 @@
 ---
-name: closecore
-description: Use when working through a CloseCore MCP connector with close tasks, agent tasks (creating or editing agent tasks directly, running them, answering the agent, reviewing its files and emails), review notes, reports, Flux analyses, ERP balances, or connected cloud storage. Bulk workbook imports belong to the author-closecore-import skill.
+name: manage-close
+description: Use when working through a CloseCore MCP connector with close tasks, agent tasks (creating or editing agent tasks directly, running them, answering the agent, reviewing its files and emails), review notes, reports, Flux analyses, ERP balances, or connected cloud storage. Bulk workbook imports belong to the author-import skill.
 ---
 
 # CloseCore
@@ -38,7 +38,7 @@ For normal close work, omit database row IDs, audit-log IDs, payload commentary,
 | Supporting IDs | `list_projects`, `list_task_folders`, `list_assignable_users`, `list_tags` |
 | Checklist | `list_checklist_items` -> `save_checklist_items` |
 | Reconciliation | `list_reconciliations` -> `save_reconciliation` |
-| Agent task | `list_agent_tasks` -> `get_agent_task_run` -> `send_agent_task_feedback` -> `rerun_agent_task_run`; `save_agent_task` after the `author-closecore-agent-task` skill |
+| Agent task | `list_agent_tasks` -> `get_agent_task_run` -> `send_agent_task_feedback` -> `rerun_agent_task_run`; `save_agent_task` after the `author-agent-task` skill |
 | Journal entry task | `list_journal_entry_items` (read-only in MCP) |
 | Link ERP journal entries | Find the task -> `search_journal_entries` (not for Sage Intacct; use `JOURNAL:NUMBER` names) -> one `link_journal_entry` call with every entry, or `unlink_journal_entry` |
 | Review notes | Find task -> `get_review_notes` -> `create_review_note` or `update_review_note` |
@@ -69,9 +69,9 @@ Call `CloseCore:set_assignee_signoff` only on an explicit request. Resolve the e
 
 ## Create or edit agent tasks directly
 
-Save one task or a handful, or a change to a live task, directly; a batch, or folders, frequencies and assignees across the board, go through the `author-closecore-import` skill.
+Save one task or a handful, or a change to a live task, directly; a batch, or folders, frequencies and assignees across the board, go through the `author-import` skill.
 
-Load the `author-closecore-agent-task` skill first and follow it; never draft an agent task's steps without it.
+Load the `author-agent-task` skill first and follow it; never draft an agent task's steps without it.
 
 1. Find the entity and, in the period the user chooses, the folder.
 2. Draft the description, steps and settings with that skill.

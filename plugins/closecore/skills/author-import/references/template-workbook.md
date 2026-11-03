@@ -59,7 +59,7 @@ Existing Template IDs of checklists, reconciliations or agent tasks, separated b
 
 ## Agent task rows
 
-A non-empty Task Description starts a task, and its row holds all the task's columns. Each further step takes the next row with only Step No., Step Title and Detailed Guidance filled. Steps run 1, 2, 3, each with a title; length limits and mentions follow the `author-closecore-agent-task` skill, and the upload never checks that the subsidiary can use a mentioned skill. CloseCore is always a preparer: the email columns manage people, and watchers are kept.
+A non-empty Task Description starts a task, and its row holds all the task's columns. Each further step takes the next row with only Step No., Step Title and Detailed Guidance filled. Steps run 1, 2, 3, each with a title; length limits and mentions follow the `author-agent-task` skill, and the upload never checks that the subsidiary can use a mentioned skill. CloseCore is always a preparer: the email columns manage people, and watchers are kept.
 
 ## Trigger cell
 

@@ -35,7 +35,7 @@ Required: the name of one active folder template in the subsidiary, matched igno
 
 ## Descriptions and steps
 
-Length limits and mentions follow the `author-closecore-agent-task` skill (a training draft takes the shorter description); a full mention token for an unknown skill fails.
+Length limits and mentions follow the `author-agent-task` skill (a training draft takes the shorter description); a full mention token for an unknown skill fails.
 
 ## What applying does
 
