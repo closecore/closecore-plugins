@@ -59,6 +59,11 @@ A step can mention several skills, and a summary or reasoning step none. In a wo
 
 Guidance configures nothing: a recipient, web access or a trigger written there also goes into the settings. When editing, keep unrelated instructions, the person's decisions and existing mentions as they are. Limits for every task: 1 to 30 steps, a title on each step of up to 300 characters, guidance of up to 3,000 characters, a description of up to 3,000 characters (300 for a training draft), and no HTML. The description's first line is the task's name in notifications and, cut to 60 characters, its folder under **Agent Files**, so keep that line short.
 
+For a direct save with a separate title and briefing, pass the title, a newline, and the
+briefing together in `description`. New tasks show the full briefing. Pass
+`collapse_description: true` to `save_agent_task` only if the user asks to show just the
+title initially. A run always receives the entire briefing.
+
 ## Rehearse the run
 
 Before handing back, narrate the run, two or three lines per step: which specialist acts, or the agent itself for the conversation and email, and with which skill; the inputs and where each comes from; what the step leaves behind; and where the run would park (**Waiting for reply**, **Email approval needed**, **Waiting for email**, or a step blocked by a failed check). Rewrite or split any step the narration cannot explain; an input with no source is a missing human step.

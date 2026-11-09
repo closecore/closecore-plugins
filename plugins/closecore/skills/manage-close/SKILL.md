@@ -38,13 +38,21 @@ For normal close work, omit database row IDs, audit-log IDs, payload commentary,
 | Supporting IDs | `list_projects`, `list_task_folders`, `list_assignable_users`, `list_tags` |
 | Checklist | `list_checklist_items` -> `save_checklist_items` |
 | Reconciliation | `list_reconciliations` -> `save_reconciliation` |
-| Agent task | `list_agent_tasks` -> `get_agent_task_run` -> `send_agent_task_feedback` -> `rerun_agent_task_run`; `save_agent_task` after the `author-agent-task` skill |
+| Agent task | `list_agent_tasks` -> `get_agent_task` -> `get_agent_task_run` -> `send_agent_task_feedback` -> `rerun_agent_task_run`; `save_agent_task` after the `author-agent-task` skill; `save_agent_task_memory` to correct a recurring task's memory |
 | Journal entry task | `list_journal_entry_items` (read-only in MCP) |
 | Link ERP journal entries | Find the task -> `search_journal_entries` (not for Sage Intacct; use `JOURNAL:NUMBER` names) -> one `link_journal_entry` call with every entry, or `unlink_journal_entry` |
 | Review notes | Find task -> `get_review_notes` -> `create_review_note` or `update_review_note` |
 | Report or Flux | `list_reports` -> `get_report` -> `get_report_data`; then `list_flux_items` -> `save_flux_item` when requested |
 | ERP detail | `list_accounts` / `list_dimensions` -> applicable balance tool |
 | Storage | Entity `workflow_instance_id` -> `search_storage`; `browse_folder` only to drill in |
+
+When someone gives a checklist item or agent task a separate title and description, send one
+`description` string with the title on the first line, a newline, and the details below.
+New tasks show all lines by default. Set `collapse_description: true` in the
+`save_checklist_items` update or `save_agent_task` call only when the person asks to show
+just the title initially. On an edit, omit the setting unless the person asks to change it.
+
+On `list_checklist_items`, `list_reconciliations`, and `list_agent_tasks`, pass `non_close: true` for tasks excluded from close statistics, `false` for close tasks, or omit it for both. Set `non_close` with the corresponding save tool. Use `apply_to: item_only` for this period or `template_and_item` to update the recurring task as well.
 
 ## Analyze a close
 
@@ -77,6 +85,8 @@ Load the `author-agent-task` skill first and follow it; never draft an agent tas
 2. Draft the description, steps and settings with that skill.
 3. Confirm them with the user, warning that a save takes effect at once: an automatic trigger can start a run.
 4. Call `save_agent_task` once per task, with `agent_task_item_id` from `list_agent_tasks` for an edit and `apply_to` set to `template_and_item` when future periods change too; send every list it takes (`steps`, `dependencies`, `email_recipients`, `assignees`, `tags`) complete.
+
+To read a recurring task's memory, the notes the agent keeps between runs, call `get_agent_task`. Correct it only by removing wrong lines: show the user the lines you will remove and wait for a yes, then call `save_agent_task_memory` with the task's `agent_task_template_id` (returned by `get_agent_task`) and the whole corrected text, because the call replaces everything stored; put permanent instructions in the task description instead, because the agent rewrites its memory after every run.
 
 ## Run agent tasks
 

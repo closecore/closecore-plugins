@@ -33,9 +33,9 @@ Anything on the second list becomes a human step or leaves the task.
 
 The agent reads the description and steps, checks the task's conversation, and works the steps strictly in order. It hands each piece of work to a specialist, which matters when you rehearse a run:
 
-- **ERP**: accounts, dimensions, balances and transaction detail, read-only. It hands transaction lines meant for a workbook to the workbook specialist as a file.
+- **ERP**: accounts, dimensions, balances and transaction detail, read-only. Balances and transaction lines reach it as files that it analyzes with code; it reports the figures and hands transaction lines meant for a workbook to the workbook specialist as a file.
 - **Workbook**: finds, opens and writes files, and is the only specialist that produces them. It has no tool that returns ERP data; transaction lines reach it as the ERP specialist's file, which it copies into the workbook with code. It moves rows from a stored CSV, TSV or xlsx file only by importing them, never by retyping; lines it reads itself from a PDF or image it can write.
-- **Close data**: CloseCore's own tasks, notes, reports, journal entry drafts, progress and users. It changes nothing.
+- **Close data**: CloseCore's own tasks, notes, reports, journal entry drafts, progress and users. Report figures reach it as a file that it analyzes with code. It changes nothing.
 - **Web**: public reference data only, on a task with **Web access** on.
 
 The agent itself asks questions, sends email, runs agent reconciliations, keeps memory and signs off as preparer once every step is done. A step it cannot complete or check parks the run with a question; it never reports progress it did not make.
@@ -46,7 +46,7 @@ The agent itself asks questions, sends email, runs agent reconciliations, keeps 
 
 - **Update a workbook** makes a new version of an existing xlsx file under its name, which a person accepts at sign-off; **Build a workbook** makes a new file; **Roll forward a workbook** only copies and relabels last period's file, so later steps do the real work.
 - **Read a spreadsheet** reads xlsx files and Google Sheets, **Read a CSV** reads CSV, TSV and text files, and **Read a PDF** reads PDFs and images, scans and handwriting included.
-- **Get transaction detail** reports up to 1,000 rows (250 by default) in the step, or puts up to 50,000 into a workbook; either way, name the account and narrow by dimension or amount when the volume is large.
+- **Get transaction detail** puts up to 50,000 lines in a file the agent works on with code, to total, group and check them, pick out the lines a step asks for, or copy them into a workbook; name the account and narrow by dimension or amount when the volume is large.
 - **Run a reconciliation** comes with any mention of an agent reconciliation, so mention the agent reconciliation itself.
 - **Request clarification** belongs on every human step that uses the conversation.
 - The ERP skills stay listed even without an ERP connection, so check the subsidiary's ERP in `list_entities`; a skill whose feature, or whose specific ERP, the subsidiary lacks is not offered.
