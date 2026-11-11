@@ -42,8 +42,8 @@ For normal close work, omit database row IDs, audit-log IDs, payload commentary,
 | Journal entry task | `list_journal_entry_items` (read-only in MCP) |
 | Link ERP journal entries | Find the task -> `search_journal_entries` (not for Sage Intacct; use `JOURNAL:NUMBER` names) -> one `link_journal_entry` call with every entry, or `unlink_journal_entry` |
 | Review notes | Find task -> `get_review_notes` -> `create_review_note` or `update_review_note` |
-| Report or Flux | `list_reports` -> `get_report` -> `get_report_data`; then `list_flux_items` -> `save_flux_item` when requested |
-| ERP's own report | `list_standard_reports` -> `get_standard_report` |
+| Custom report or Flux | `list_reports` -> `get_report` -> `get_report_data`; then `list_flux_items` -> `save_flux_item` when requested |
+| Standard report | `list_standard_reports` -> `get_standard_report` |
 | ERP detail | `list_accounts` / `list_dimensions` -> applicable balance tool |
 | Storage | Entity `workflow_instance_id` -> `search_storage`; `browse_folder` only to drill in |
 
@@ -68,11 +68,20 @@ After the entity and period are selected:
 
 Task lists contain only note summaries. Use `get_review_notes` before replying or resolving. Create a reply with `previous_note_id`; update the exact note ID for content, assignment, tags, or status.
 
-For a report the ERP calculates itself, such as a P&L, balance sheet, cash flow statement or aging, call `list_standard_reports` for the entity first. If it lists the report, fetch it with `get_standard_report`, never from balances or transaction detail, and give the company, dates, currency and accounting basis the ERP reported, with any warnings. If it lists other reports but not this one, say the integration does not offer it and offer to analyze an exported file; never rebuild it from balances or transactions. If the list is empty, there are no standard reports to use, so handle the request as you would without these tools.
-
-`get_report_data` reads cached v2 data from CloseCore's saved reports. For another saved report type, use existing Flux data only if it answers the request; otherwise report the limitation. If several comparison types fit the request, ask which one. Update a Flux item with its returned ID and required identity/configuration fields. Never create a duplicate for an uncertain match.
-
 Storage returns metadata and nullable `cloud_url`, not contents. Verify name, path, and document type; narrow multiple matches or ask. If no result matches, retry with a shorter identifying term. Give an available link and ask the user to drag the file into the session. Otherwise report that no link exists. Never claim MCP downloaded or parsed it.
+
+## Reports
+
+A request for a report can mean either of two kinds:
+
+- A **standard report** is calculated by the ERP itself and fetched from it live, such as QuickBooks Online's P&L, balance sheet, cash flow statement, trial balance, or AR and AP aging. Only some ERP integrations offer them; `list_standard_reports` shows which ones an entity has.
+- A **custom report** is one the team built on CloseCore's **Reporting** page from the accounting data CloseCore syncs, with its own grouping, filters and budgets. `list_reports` finds it and `get_report_data` reads its figures.
+
+Flux analysis exists only for CloseCore's reports, never for standard reports.
+
+When the user names a custom report, or the request needs budgets or Flux analysis, use a custom report. Otherwise, for a report the ERP calculates, such as a P&L, balance sheet, cash flow statement or aging, call `list_standard_reports` for the entity first. If it lists the report, fetch it with `get_standard_report`, never from balances or transaction detail, and give the company, dates, currency and accounting basis the ERP reported, with any warnings. If it lists other reports but not this one, say the integration does not offer it and offer to analyze an exported file; never rebuild it from balances or transactions. If the list is empty, there are no standard reports to use, so handle the request as you would without these tools.
+
+`get_report_data` reads custom reports only. For a CloseCore report of the Balance Sheet, Income Statement, Cash Flow Statement or All Accounts type, use its existing Flux data only if it answers the request; otherwise report the limitation. If several comparison types fit the request, ask which one. Update a Flux item with its returned ID and required identity/configuration fields. Never create a duplicate for an uncertain match.
 
 ## Signoff
 
