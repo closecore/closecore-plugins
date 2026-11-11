@@ -13,7 +13,7 @@ Use CloseCore MCP for close data and workflow changes. `CloseCore:tool_name` mea
 - Before analyzing a close, require the user to select one entity or all entities and one period. Use `CloseCore:list_entities` and `CloseCore:list_periods` to present exact options when either choice is missing; do not infer the entity or period from task results. If the user already named both unambiguously, treat that as their selection.
 - When the user says "current close" without naming a period, suggest the returned period for the previous calendar month as the likely choice, while still asking them to select the entity and confirm the period. If that month is not returned by `CloseCore:list_periods`, present the available periods without guessing.
 - If the user selects all entities, tell them the analysis may take a little longer and begin immediately. Do not ask for another confirmation.
-- Never construct a period value from the user's wording. Use the returned `slug` for task-list `periods`, storage `period_slug`, and `get_report_data.period_month`. Use the returned `month` for date-valued Flux `period_month` inputs.
+- Never construct a period value from the user's wording. Use the returned `slug` for task-list `periods`, storage `period_slug`, `get_standard_report.period_slug`, and `get_report_data.period_month`. Use the returned `month` for date-valued Flux `period_month` inputs.
 - Ask the user to choose among ambiguous matches before mutation. Read the current item first and report the mutation's returned result.
 - On connection, authentication, scope, or permission failure, give the exact error and ask the user to connect or re-authenticate. Do not switch data sources silently.
 
@@ -43,6 +43,7 @@ For normal close work, omit database row IDs, audit-log IDs, payload commentary,
 | Link ERP journal entries | Find the task -> `search_journal_entries` (not for Sage Intacct; use `JOURNAL:NUMBER` names) -> one `link_journal_entry` call with every entry, or `unlink_journal_entry` |
 | Review notes | Find task -> `get_review_notes` -> `create_review_note` or `update_review_note` |
 | Report or Flux | `list_reports` -> `get_report` -> `get_report_data`; then `list_flux_items` -> `save_flux_item` when requested |
+| ERP's own report | `list_standard_reports` -> `get_standard_report` |
 | ERP detail | `list_accounts` / `list_dimensions` -> applicable balance tool |
 | Storage | Entity `workflow_instance_id` -> `search_storage`; `browse_folder` only to drill in |
 
@@ -67,7 +68,9 @@ After the entity and period are selected:
 
 Task lists contain only note summaries. Use `get_review_notes` before replying or resolving. Create a reply with `previous_note_id`; update the exact note ID for content, assignment, tags, or status.
 
-`get_report_data` reads cached v2 data. For another report type, use existing Flux data only if it answers the request; otherwise report the limitation. If several comparison types fit the request, ask which one. Update a Flux item with its returned ID and required identity/configuration fields. Never create a duplicate for an uncertain match.
+For a report the ERP calculates itself, such as a P&L, balance sheet, cash flow statement or aging, call `list_standard_reports` for the entity first. If it lists the report, fetch it with `get_standard_report`, never from balances or transaction detail, and give the company, dates, currency and accounting basis the ERP reported, with any warnings. If it lists other reports but not this one, say the integration does not offer it and offer to analyze an exported file; never rebuild it from balances or transactions. If the list is empty, there are no standard reports to use, so handle the request as you would without these tools.
+
+`get_report_data` reads cached v2 data from CloseCore's saved reports. For another saved report type, use existing Flux data only if it answers the request; otherwise report the limitation. If several comparison types fit the request, ask which one. Update a Flux item with its returned ID and required identity/configuration fields. Never create a duplicate for an uncertain match.
 
 Storage returns metadata and nullable `cloud_url`, not contents. Verify name, path, and document type; narrow multiple matches or ask. If no result matches, retry with a shorter identifying term. Give an available link and ask the user to drag the file into the session. Otherwise report that no link exists. Never claim MCP downloaded or parsed it.
 
