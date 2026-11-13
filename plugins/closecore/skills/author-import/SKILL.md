@@ -39,7 +39,7 @@ Load the `author-agent-task` skill first and follow it; never draft an agent tas
 
 - **Task Description** on the task's first row, then one row per step: **Step No.** from 1, **Step Title** and **Detailed Guidance**. Step 1 shares the task's row; each later step row leaves every other cell blank.
 - Mentions and length limits follow that skill's "Write the guidance" section.
-- Template workbook settings, on the task's row: **Folder**, **Frequency**, CloseCore's own deadline in **Agent Due Date**, the human preparers and reviewers with their due dates (CloseCore is always a preparer), the start mode in **Trigger**, **Web Access**, **Approved Email Recipients** as `Name <email>` (everyone an email step writes to), **Email Policy**, existing Template IDs in **Dependencies**, and **Tags**.
+- Template workbook settings, on the task's row: **Folder**, **Frequency**, who runs it in **Run By**, CloseCore's own deadline in **Agent Due Date**, the human preparers and reviewers with their due dates (CloseCore is always a preparer on a task it runs), the start mode in **Trigger**, **Web Access**, **Approved Email Recipients** as `Name <email>` (everyone an email step writes to), **Email Policy**, existing Template IDs in **Dependencies**, and **Tags**. An **Own agent** row needs a person as preparer and leaves CloseCore's settings out, as the reference's Run By section says.
 - A training draft takes only the description and steps; the person sets web access and approved recipients in the workspace.
 
 ## Check before hand-off

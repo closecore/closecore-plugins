@@ -1,6 +1,6 @@
 # The agent's boundary, skills and input channels
 
-Quote the two lists below when you turn part of a request into a human step or leave it out of the task, so every person hears the same reason. They describe a run of an agent task, which always works in one subsidiary. A training test sees less: only its workspace and the earlier periods' folders for its folder template, with email simulated.
+Quote the two lists below when you turn part of a request into a human step or leave it out of the task, so every person hears the same reason. They describe a run by CloseCore's agent, which always works in one subsidiary; the last section covers a task the preparer's own agent runs. A training test sees less: only its workspace and the earlier periods' folders for its folder template, with email simulated.
 
 ## What the agent can do
 
@@ -42,7 +42,7 @@ The agent itself asks questions, sends email, runs agent reconciliations, keeps 
 
 ## Choosing skills
 
-`list_available_skills`, or the workbook's **Skills** sheet, is the catalog: each skill's name, what it does, what it needs and its mention. The distinctions it does not draw:
+`list_available_skills`, or the workbook's **Skills** sheet, is the catalog: each skill's name, what it does, what it needs and its mention. It includes the customer's own skills, kept in their cloud folders for the organization, a subsidiary group or the subsidiary, listed first (category `custom`). The distinctions it does not draw:
 
 - **Update a workbook** makes a new version of an existing xlsx file under its name, which a person accepts at sign-off; **Build a workbook** makes a new file; **Roll forward a workbook** only copies and relabels last period's file, so later steps do the real work.
 - **Read a spreadsheet** reads xlsx files and Google Sheets, **Read a CSV** reads CSV, TSV and text files, and **Read a PDF** reads PDFs and images, scans and handwriting included.
@@ -51,7 +51,9 @@ The agent itself asks questions, sends email, runs agent reconciliations, keeps 
 - **Run a reconciliation** comes with any mention of an agent reconciliation, so mention the agent reconciliation itself.
 - **Request clarification** belongs on every human step that uses the conversation.
 - The ERP skills stay listed even without an ERP connection, so check the subsidiary's ERP in `list_entities`; a skill whose feature, or whose specific ERP, the subsidiary lacks is not offered.
-- A mention of a skill that no longer exists makes the agent stop and ask at run time.
+- A customer skill is mentioned like a built-in one. When its name gives a built-in's mention, it replaces that skill in the catalog and in the run, so its own description, not the distinctions above, says what that mention does.
+- Every run has every skill the subsidiary has, so the agent also applies a skill whose description fits a step that does not mention it. That use ranks below the customer's context (the rules in each context folder's README.md, which the agent reads on every run), which ranks below the task's description and steps. Mention the skill a step must follow, since a mentioned skill counts as part of the step.
+- A mention of a skill that no longer exists makes the agent stop and ask at run time, as does a mention of a customer skill whose folder was renamed or removed.
 
 ## Channels for a person's input
 
@@ -62,7 +64,7 @@ The agent itself asks questions, sends email, runs agent reconciliations, keeps 
 - A person answers in the task's **Conversation** tab, or through the CloseCore connector. The reply resumes the run at once.
 - A reply can carry attached files. The agent reads PDFs, images, spreadsheets and CSV files, so ask for one of those.
 - Use it for what someone on the team knows or holds: an approved rate, a judgment call, a report from a system the agent cannot reach.
-- Review notes are not a channel. The agent reads them only as information about the close, so instructions belong in the steps or the conversation.
+- Review notes are not a channel for CloseCore's agent, which reads them only as information about the close, so instructions belong in the steps or the conversation. On a task the preparer's own agent runs, the open review notes are how reviewers talk back to that agent: its next run reads them.
 
 ### Email
 
@@ -72,3 +74,13 @@ The agent itself asks questions, sends email, runs agent reconciliations, keeps 
 - The task's **Email policy** decides whether a person sees the draft first. **Approval** means someone approves each draft (the run shows **Email approval needed**); **Auto** sends to approved recipients without review. While the agent waits for the reply, the run shows **Waiting for email**.
 - The agent sends a follow-up only on a date the guidance gives; otherwise it keeps waiting.
 - Use it for someone outside CloseCore, such as a bank contact, a vendor or a manager who works in another system.
+
+## A task the preparer's own agent runs
+
+A task set to run by **Your own agent** is worked by its preparer's own Claude through the CloseCore connector, so the lists above do not describe it:
+
+- Sources: anything the agent can reach, through the connector (ERP accounts, balances and transaction detail, close data, and the connected storage's folders and file links) or through its own connections, including systems CloseCore has no connection to. Each step's report names its sources.
+- Skills and context: the customer's own skills and context folders reach the agent too. Its briefing lists the subsidiary's skills and carries its context folders' README.md rules, and it reads a skill with `read_skill` and any other file of a skill or context folder with `read_agent_content_file`. Built-in skills and agent reconciliations are CloseCore's agent's procedures; the preparer's agent sees only their names, so the guidance spells out that method. A customer skill runs in the preparer's own Claude with everything that Claude can reach, so its scripts run only after the user agrees.
+- Files: the agent saves them in the task's folder in the customer's cloud storage, through its own connection to that storage, and refreshes the folder through the connector so a step can cite the file. Nothing goes to **Agent Files** or waits for acceptance at sign-off.
+- People: the agent asks its user in their own chat, and reviewers reach it through the task's open review notes, which its next run reads. The task's conversation, **Approved email recipients** and CloseCore's email do not apply.
+- Through CloseCore it cannot run a built-in procedure or an agent reconciliation, send email, post to the ERP or upload a file. It can reply to and resolve review notes, and sign off as its user when the organization allows it.

@@ -12,14 +12,14 @@ The rules the app enforces on upload in **Update existing templates**.
 6. Accounts
 7. Skills
 
-The first four must keep these names; **Agent Task Templates** and **Skills** come only with agent tasks enabled and read permission. Edits to **Accounts** and **Skills** are ignored, as are blank rows. Each header row holds exactly the headers below, in order, with nothing after them; only the agent sheet's last three may be missing.
+The first four must keep these names; **Agent Task Templates** and **Skills** come only with agent tasks enabled and read permission. Edits to **Accounts** and **Skills** are ignored, as are blank rows. Each header row holds exactly the headers below, in order, with nothing after them; only the agent sheet's last four may be missing.
 
 Headers, in order:
 
 - **Folder Templates**: Template ID, Folder Name
 - **Checklist Templates**: Template ID, Folder, Task Description, Subtask Description, Frequency, Preparer Emails, Preparer Due Dates, Reviewer Emails, Reviewer Due Dates, Tags, Dependencies
 - **Reconciliation Templates**: Template ID, Folder, Name, Type, Accounts, Frequency, Fixed Balance, Threshold Amount, Preparer Emails, Preparer Due Dates, Reviewer Emails, Reviewer Due Dates, Tags, Dependencies
-- **Agent Task Templates**: Template ID, Folder, Task Description, Step No., Step Title, Detailed Guidance, Frequency, Agent Due Date, Preparer Emails, Preparer Due Dates, Reviewer Emails, Reviewer Due Dates, Tags, Dependencies, Trigger, Web Access, Approved Email Recipients, Email Policy
+- **Agent Task Templates**: Template ID, Folder, Task Description, Step No., Step Title, Detailed Guidance, Frequency, Agent Due Date, Preparer Emails, Preparer Due Dates, Reviewer Emails, Reviewer Due Dates, Tags, Dependencies, Trigger, Web Access, Approved Email Recipients, Email Policy, Run By
 - **Accounts**: Account Number, Account Name
 - **Skills**: Name, Type, Description, Mention to copy
 
@@ -59,7 +59,7 @@ Existing Template IDs of checklists, reconciliations or agent tasks, separated b
 
 ## Agent task rows
 
-A non-empty Task Description starts a task, and its row holds all the task's columns. Each further step takes the next row with only Step No., Step Title and Detailed Guidance filled. Steps run 1, 2, 3, each with a title; length limits and mentions follow the `author-agent-task` skill, and the upload never checks that the subsidiary can use a mentioned skill. CloseCore is always a preparer: the email columns manage people, and watchers are kept.
+A non-empty Task Description starts a task, and its row holds all the task's columns. Each further step takes the next row with only Step No., Step Title and Detailed Guidance filled. Steps run 1, 2, 3, each with a title; length limits and mentions follow the `author-agent-task` skill, and the upload never checks that the subsidiary can use a mentioned skill. The email columns manage people, and watchers are kept; on a task CloseCore runs, CloseCore is always a preparer as well.
 
 ## Trigger cell
 
@@ -87,6 +87,12 @@ A bare `Email` keeps saved settings; a new email task needs the whole block and 
 ## Option columns
 
 A missing Web Access, Approved Email Recipients or Email Policy column keeps its setting, and a value under its missing header fails. In a present column, blank means web access off, no approved recipients, or Approval. Recipients are `Name <email>` entries separated by semicolons, such as `Alex Smith <alex@example.com>;Pat Lee <pat@example.com>`.
+
+## Run By
+
+Column 19 (S), the last, says who runs the task with a value from Accepted values; letter case does not matter. Without its header every row reads as blank, and a value under the missing header fails. Who runs a task is set when it is created: a new template takes the row's value, or CloseCore when blank, or Own agent for an organization that has only that kind. An existing template keeps its kind, so its row must be blank or match it; to move a task to the other agent, add a new row for a new task.
+
+An Own agent row needs at least one Preparer Email, keeps Trigger as Manual or blank, and leaves Web Access, Approved Email Recipients and Email Policy blank. It has no Agent Due Date, so a value there is ignored. The export writes Own agent rows this way.
 
 ## Accepted values
 
@@ -117,6 +123,11 @@ A missing Web Access, Approved Email Recipients or Email Policy column keeps its
 - Approval: a person approves each draft before it is sent.
 - Auto: drafts to approved recipients go without review.
 
+### Run By
+
+- CloseCore: CloseCore's agent runs the task.
+- Own agent: the preparer's own agent runs it through the CloseCore connector.
+
 ## Error catalog
 
 Upload messages read `<Sheet>, Excel row <n>: <message>`, and the first one stops the upload. **Edit templates** marks problem cells, says `Fix the highlighted rows before continuing.` and disables **Continue**; review messages appear under **Fix these before applying** or **Review changes**. Each entry gives the cause, its messages (long ones by their opening words) and the fix.
@@ -135,6 +146,7 @@ Upload messages read `<Sheet>, Excel row <n>: <message>`, and the first one stop
 - Assignees, also for Reviewer and Agent: `Preparer Emails and Preparer Due Dates must have matching counts`, `Preparer email "<email>" is invalid`, `Preparer due date "<value>" must be a whole number`, `Preparer: Business-day offset cannot be zero`, `Preparer: Day of month must be between 1 and 31`, `Preparer: Weekday must be between 0 (Sunday) and 6 (Saturday)`, `A person cannot both prepare and review "<task>".`, `Assignee <email> is not available for this subsidiary.`, `These assignees are not available for this entity`. Give each email from `list_assignable_users` one due date in an accepted form.
 - Dependencies: `Dependencies must contain existing Template IDs`, `Dependencies contains a duplicate Template ID`, `Dependency <id> for "<task>" is not an available existing task`, `"<task>" cannot depend on itself.`, `"<task>" depends on a task selected for deletion`, `Cannot delete "<task>" while another task depends on it.`, `Dependencies for "<task>" form a circular dependency.` Follow Dependencies.
 - Options: `Web Access must be Yes or No`, `Email Policy must be Approval or Auto`, `Use Name <email@example.com> for each approved recipient`, `Each approved email recipient needs a contact name.` Follow Option columns.
+- Run By: `Run By must be CloseCore or Own agent.`, `An own-agent task needs at least one Preparer Email.`, `An own-agent task starts manually.`, `An own-agent task has no web access or email settings.`, `Agent tasks run by your own agent are not enabled for this organization.` (or `run by CloseCore`), `Run By can't change on an existing task. Create a new task instead.` Follow Run By; for the last, clear the cell or set it back to the template's kind.
 - Triggers, the first eleven shown after `Trigger: `: `Trigger must be Manual, Date:5, Date:15*, Dependencies, or Email`, `Trigger settings are only supported for Email`, `unknown email field`, `Trigger repeats the <field> field`, `Trigger Mailbox: Use 3-40 lowercase letters`, `Allowed senders must be full email addresses.`, `Trigger requires between 1 and 20 allowed senders`, `Trigger Source must be Attachment, Subject, or Received`, `Trigger Offset must be`, `Trigger Pattern is only used with Attachment or Subject`, `Trigger Pattern: <problem>`, `Email requires Mailbox, Senders and Source`, `Email requires a mailbox and complete email settings.`, `Email-triggered start requires the agent email feature.`, `is used by more than one imported task`, `is already used by another task`. Follow Trigger cell with a free mailbox, or choose another trigger.
 - Permissions: **Missing permissions** in the review. Folder changes need Manage structure, new tags Manage tags and agent task changes Agent tasks Write; someone with them applies.
 - No differences: `No changes detected`. Check that the edits were saved.
